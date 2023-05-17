@@ -125,6 +125,38 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+
+.containers-filters {
+	display: flex;
+    flex-direction: row;
+	gap: 3%;
+	justify-content: center;
+	text-align: center;
+	margin-bottom: 33px;
+  }
+  button.filter {
+	display: flex;
+	width: auto;
+	height: 33px;
+	border: 1px solid #1D6154;
+	border-radius: 60px;
+	color: #1D6154;
+	padding: 2px 20px 2px 20px;
+	font-weight: 700;
+	font-size: 11px;
+	background-color: transparent;
+	white-space: nowrap;
+	border-radius: 60px;
+    align-items: center;
+    justify-content: center;
+	cursor: pointer;
+  }
+
+  .containers-filters :active, .containers-filters :hover, .containers-filters :focus {
+	color: white;
+	background-color: #1D6154;
+  }
 .gallery {
 	width: 100%;
 	display: grid;
