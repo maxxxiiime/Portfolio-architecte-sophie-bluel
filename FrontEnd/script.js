@@ -2,6 +2,7 @@ const gallery = document.getElementsByClassName('gallery')[0];
 const containersFilters = document.querySelector('.containers-filters');
 let listWorks;
 
+// récupérer les travaux de l'api
 async function recoverWorks() {
     const response = await fetch("http://localhost:5678/api/works");
     const works = await response.json();
@@ -10,7 +11,6 @@ async function recoverWorks() {
 
 function createGalleryProject(work) {
     const project = document.createElement('figure');
-    // project.classList.add('gallery');
     const image = document.createElement('img');
     image.src = work.imageUrl;
     image.alt = work.title;
@@ -26,7 +26,6 @@ function createGalleryProject(work) {
 function displayGallery(arrayWork) {
     gallery.innerHTML='';
 
-    console.log(arrayWork);
     arrayWork.forEach(work =>{
         const galleryProject = createGalleryProject(work);
         gallery.appendChild(galleryProject);
@@ -42,7 +41,7 @@ async function main() {
 function resetGallery(){
     gallery.innerHTML='';
 }
-// filtrer par catégories 1, 2 ou 3
+// récupérer les catégories 1, 2 ou 3
 async function recoverCategories() {
     const response = await fetch("http://localhost:5678/api/categories");
     const listCategories = await response.json();
@@ -51,16 +50,9 @@ async function recoverCategories() {
     createFilters(listCategories);
     // ajoute les filtres categories
     categorieFilter(); 
-    
-        // test de filtrer les catégories avec la fonction filtre
-    // const filteredCategorieId1 = listCategories.filter(obj => obj.id=1);
-    // console.log(filteredCategorieId1);
-        // POURQUOI ça marche pas  ??? ça transforme tout les ID en =1 !? 
-        // cela devrait me retourner un tableau avec QUE les id=1
 }
-
+// créer les filtres
 function createFilters(categories){
-
     categories.forEach(categorie =>{
         const btn = document.createElement('button')
         btn.className = 'filter';
@@ -74,30 +66,21 @@ function categorieFilter() {
     containersFilters.addEventListener('click', function (event) {
         if (event.target.classList.contains('filter')) {
             // Filtre les projets en fonction de la catégorie sélectionnée id
-                // const selectedCategorie = event.target.id;
-                // console.log(selectedCategorie);
-
             const selectedCategorie = event.target.id;
-
-            const filteredProjects = listWorks.filter(work => work.categoryId === selectedCategorie);
-            displayGallery(filteredProjects);
+            console.log(selectedCategorie);
+console.log(listWorks);
+           
+        // affiche tous les projets si la catégorie selectionnée est 'tous'
+            if (selectedCategorie === 'all') {
+                displayGallery(listWorks); 
+              } 
+            //   afficher la catégorie selectionnée
+              else {
+                const filteredProjects = listWorks.filter(work => work.categoryId == selectedCategorie);
+                displayGallery(filteredProjects);
+              }
         }
     });
 }
 
-        // test de filtrer les catégories avec la fonction filtre MAIS SA MARCHE PAS !
-// const filteredCategorieId1 = containersFilters.filter(obj => obj.id=1);
-        //POURQUOI
 main()
-
-// async function main() {
-//     let listWorks = await recoverWorks();
-//     let listCategories = await recoverCategories();
-//     resetGallery();
-//     displayGallery(listWorks);
-//     createFilters(listCategories);
-//     categorieFilter();
-// }
-
-
-
