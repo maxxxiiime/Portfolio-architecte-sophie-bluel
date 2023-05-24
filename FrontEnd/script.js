@@ -1,5 +1,6 @@
 const gallery = document.getElementsByClassName('gallery')[0];
-const containersFilters=document.querySelector('.containers-filters');
+const containersFilters = document.querySelector('.containers-filters');
+let listWorks;
 
 async function recoverWorks() {
     const response = await fetch("http://localhost:5678/api/works");
@@ -33,7 +34,7 @@ function displayGallery(arrayWork) {
     });
 }
 async function main() {
-    let listWorks = await recoverWorks()
+    listWorks = await recoverWorks();
     resetGallery();
     displayGallery(listWorks);
     recoverCategories();
@@ -49,7 +50,13 @@ async function recoverCategories() {
     // return listCategories;
     createFilters(listCategories);
     // ajoute les filtres categories
-    categorieFilter();     
+    categorieFilter(); 
+    
+        // test de filtrer les catégories avec la fonction filtre
+    // const filteredCategorieId1 = listCategories.filter(obj => obj.id=1);
+    // console.log(filteredCategorieId1);
+        // POURQUOI ça marche pas  ??? ça transforme tout les ID en =1 !? 
+        // cela devrait me retourner un tableau avec QUE les id=1
 }
 
 function createFilters(categories){
@@ -62,18 +69,27 @@ function createFilters(categories){
         containersFilters.appendChild(btn);      
     });
 }
-// filtrer et selectionner les catégorie par id au clique
+        // filtrer et selectionner les catégories par id au clique
 function categorieFilter() {
     containersFilters.addEventListener('click', function (event) {
         if (event.target.classList.contains('filter')) {
-            // Filtre les projets en fonction de la catégorie sélectionné id
+            // Filtre les projets en fonction de la catégorie sélectionnée id
+                // const selectedCategorie = event.target.id;
+                // console.log(selectedCategorie);
+
             const selectedCategorie = event.target.id;
-            console.log(selectedCategorie);
+
+            const filteredProjects = listWorks.filter(work => work.categoryId === selectedCategorie);
+            displayGallery(filteredProjects);
         }
     });
 }
 
+        // test de filtrer les catégories avec la fonction filtre MAIS SA MARCHE PAS !
+// const filteredCategorieId1 = containersFilters.filter(obj => obj.id=1);
+        //POURQUOI
 main()
+
 // async function main() {
 //     let listWorks = await recoverWorks();
 //     let listCategories = await recoverCategories();
