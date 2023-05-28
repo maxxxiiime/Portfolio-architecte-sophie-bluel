@@ -22,12 +22,15 @@ form.addEventListener('submit', async (event) => {
     if (response.ok) {
       const data = await response.json();
       const token = data.token;
+// Enregistre le token dans le local storage (application)
+      localStorage.setItem('token', token); 
 
+      // Rediriger vers index.html si token OK
       window.location.href = './index.html';
     } else {
       errorMsg.innerText = 'email ou mot de passe incorrect.';
     }
   } catch (error) {
-    console.log('Erreur lors de la requête de connexion :');
+    console.log('Erreur lors de la requête de connexion :', error);
   }
 });

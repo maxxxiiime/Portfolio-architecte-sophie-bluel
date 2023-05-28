@@ -61,7 +61,7 @@ function createFilters(categories){
         containersFilters.appendChild(btn);      
     });
 }
-        // filtrer et selectionner les catégories par id au clique
+        // filtre et selectionne les catégories par id au clique
 function categorieFilter() {
     containersFilters.addEventListener('click', function (event) {
         if (event.target.classList.contains('filter')) {
@@ -84,3 +84,4 @@ console.log(listWorks);
 }
 
 main()
+
