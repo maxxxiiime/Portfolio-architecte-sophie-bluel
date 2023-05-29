@@ -28,7 +28,7 @@ form.addEventListener('submit', async (event) => {
       // Rediriger vers index.html si token OK
       window.location.href = './index.html';
     } else {
-      errorMsg.innerText = 'email ou mot de passe incorrect.';
+      errorMsg.innerText = 'Erreur dans l’identifiant ou le mot de passe.';
     }
   } catch (error) {
     console.log('Erreur lors de la requête de connexion :', error);

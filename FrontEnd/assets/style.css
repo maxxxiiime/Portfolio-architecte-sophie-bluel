@@ -46,9 +46,10 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
 /** end reset css**/
 body {
-	max-width: 1140px;
+	max-width: 1140px; /*je fixed la barre du mode édition ou je retouche ça?? */
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
@@ -132,17 +133,18 @@ li:hover {
 	margin-bottom: 1em;
 }
 
-
 .containers-filters {
 	display: flex;
     flex-direction: row;
-	gap: 3%;
 	justify-content: center;
 	text-align: center;
 	margin-bottom: 33px;
+	gap: 3%;
   }
   button.filter {
 	display: flex;
+	align-items: center;
+    justify-content: center;
 	width: auto;
 	height: 33px;
 	border: 1px solid #1D6154;
@@ -154,8 +156,6 @@ li:hover {
 	background-color: transparent;
 	white-space: nowrap;
 	border-radius: 60px;
-    align-items: center;
-    justify-content: center;
 	cursor: pointer;
   }
 
@@ -181,7 +181,6 @@ margin: auto;
 }
 #contact > * {
 	text-align: center;
-
 }
 #contact h2{
 	margin-bottom: 20px;
@@ -265,22 +264,61 @@ footer nav ul {
 	align-items: center;
 }
 .btn-login-container button {
-	background: #1D6154;
+	width: 180px;
 	border-radius: 60px;
+	margin: 27px 0px 37px 0px;
+	padding: 10px 27px;
 	font-family: 'Syne';
 	font-style: normal;
 	font-weight: 700;
 	font-size: 15px;
 	line-height: 17px;
-	padding: 10px 27px;
 	text-align: center;
-	width: 180px;
+	color: #FFFFFF;	
+	background: #1D6154;
 	cursor: pointer;
-
-	color: #FFFFFF;
-	margin: 27px 0px 37px 0px;
-
 }
 .btn-login-container button:hover{
 	background: #12443b;
+}
+
+/** MODE EDITION **/
+.mode-edition{
+	background: #000000;
+	width: 100vw !important; /** Pour caler la barre sur toute la longueur de la page **/
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: none;
+	margin:0 !important;
+}
+.content-mode-edit {
+	max-width: 1140px;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	display: none;
+	display: flex;
+	padding: 10px;
+	gap: 22px;
+	color: #FFFFFF;
+}
+.mode-edition button {
+	width: 200px;
+	border-radius: 50px;
+	padding: 10px;
+	font-style: normal;
+	font-size: 14px;
+	line-height: 17px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+/** logout **/
+#logout {
+	display: none ;
 }

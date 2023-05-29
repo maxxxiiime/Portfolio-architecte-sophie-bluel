@@ -11,13 +11,30 @@
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
+<!-- a afficher au login -->
+<!-- 
+sophie.bluel@test.tld
+S0phie 
+ -->
+
+	<div class="mode-edition">
+		<div class="content-mode-edit">
+			<img class="icon-edit" src="./assets/icons/icon-edit.svg" alt="icon edit">
+			<p>Mode édition</p>
+		
+		<button>Publier les changements</button>
+		</div>
+	</div>
+
+<!-- header avec nav login -->
 <header>
 	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li><a href="./login.html" id="login">login</a></li>
+			<li><a href="#portfolio">projets</a></li>
+            <li><a href="#contact">contact</a></li>
+            <li><a href="./login.html" id="login">login</a></li>
+            <li id="logout"><a href="./index.html">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -25,7 +42,7 @@
 <main>
 	<section id="introduction">
 		<figure>
-			<img src="./assets/images/sophie-bluel.png" alt="">
+			<img src="./assets/images/sophie-bluel.png" alt="sophie bluel">
 		</figure>
 		<article>
 			<h2>Designer d'espace</h2>
@@ -36,9 +53,11 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
+		<!-- les filtres, Faudra surement rajouter le bouton modifier par ici -->
 		<div class="containers-filters">
 		<button class="filter" id="all">tous</button>
 		</div>
+		<!-- la gallerie de projets recupérée -->
 		<div class="gallery">
 			<!-- <figure>
 				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
@@ -97,7 +116,6 @@
 		</form>
 	</section>
 </main>
-
 <footer>
 	<nav>
 		<ul>

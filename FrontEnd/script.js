@@ -2,7 +2,7 @@ const gallery = document.getElementsByClassName('gallery')[0];
 const containersFilters = document.querySelector('.containers-filters');
 let listWorks;
 
-// récupérer les travaux de l'api
+// récupérer les travaux de l'api avec Fetch
 async function recoverWorks() {
     const response = await fetch("http://localhost:5678/api/works");
     const works = await response.json();
@@ -26,7 +26,7 @@ function createGalleryProject(work) {
 function displayGallery(arrayWork) {
     gallery.innerHTML='';
 
-    arrayWork.forEach(work =>{
+    arrayWork.forEach(work => {
         const galleryProject = createGalleryProject(work);
         gallery.appendChild(galleryProject);
         console.log(work);   
@@ -38,7 +38,7 @@ async function main() {
     displayGallery(listWorks);
     recoverCategories();
 }
-function resetGallery(){
+function resetGallery() {
     gallery.innerHTML='';
 }
 // récupérer les catégories 1, 2 ou 3
@@ -52,11 +52,11 @@ async function recoverCategories() {
     categorieFilter(); 
 }
 // créer les filtres
-function createFilters(categories){
-    categories.forEach(categorie =>{
+function createFilters(categories) {
+    categories.forEach(categorie => {
         const btn = document.createElement('button')
         btn.className = 'filter';
-        btn.id = categorie.id;
+        btn.id = categorie.id; 
         btn.textContent = categorie.name;
         containersFilters.appendChild(btn);      
     });
@@ -68,7 +68,6 @@ function categorieFilter() {
             // Filtre les projets en fonction de la catégorie sélectionnée id
             const selectedCategorie = event.target.id;
             console.log(selectedCategorie);
-console.log(listWorks);
            
         // affiche tous les projets si la catégorie selectionnée est 'tous'
             if (selectedCategorie === 'all') {
@@ -83,5 +82,30 @@ console.log(listWorks);
     });
 }
 
-main()
 
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    const modeEdition = document.querySelector('.mode-edition');
+    const login = document.getElementById('login');
+    const logout = document.getElementById('logout');
+    const body = document.querySelector('body');
+
+    if (token) {
+      // Le token est valide, affiche la div
+      modeEdition.style.display = 'block';
+      login.style.display = 'none';
+      logout.style.display = 'block';
+      containersFilters.style.display = 'none';
+      body.style.marginTop = '80px'; 
+      
+
+    } else {
+      // Le token n'est pas valide, masque la div
+      modeEdition.style.display = 'none';
+      login.style.display = 'block';
+    }
+
+
+  });
+
+  main()
