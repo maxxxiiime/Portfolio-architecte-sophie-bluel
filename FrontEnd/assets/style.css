@@ -92,12 +92,14 @@ nav ul {
 
 }
 nav li {
-	padding: 0 10px;
 	font-size: 1.2em;
 }
 nav li a {
+	padding: 0 10px;
 	text-decoration: none;
-	color: black
+	color: black;
+	cursor: pointer;
+	
 }
 nav li a:hover {
 	color: #B1663C;
@@ -119,7 +121,10 @@ li:hover {
 }
 
 #introduction article {
-	flex: 1
+	flex: 1  ;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
 }
 #introduction h2 {
 	margin-bottom: 1em;
@@ -321,4 +326,44 @@ footer nav ul {
 /** logout **/
 #logout {
 	display: none ;
+}
+
+/* En mode edition */
+.projets{
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+	flex-direction: row;
+}
+.content-edit-projects {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	margin-left: 31px;
+
+}
+.under-pic {
+	float: left;
+	margin-left: 10%;
+	margin-top: 10px;
+}
+.edit-btn {
+	display: flex;
+	color: rgb(0, 0, 0);
+	border: none;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-weight: 400;
+	text-align: center;
+	cursor: pointer;
+	margin: auto 10px;
+}
+.over-description {
+
+	flex-wrap: nowrap;
+	margin: 10px 10px 30px 0;
+}
+.icon-edit{
+max-width: 18px;
 }

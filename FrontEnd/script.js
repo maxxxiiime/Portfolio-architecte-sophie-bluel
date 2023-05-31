@@ -81,13 +81,14 @@ function categorieFilter() {
         }
     });
 }
-
+main()
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     const modeEdition = document.querySelector('.mode-edition');
     const login = document.getElementById('login');
     const logout = document.getElementById('logout');
+    const editProjects = document.querySelectorAll('.content-edit-projects');
     const body = document.querySelector('body');
 
     if (token) {
@@ -96,8 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
       login.style.display = 'none';
       logout.style.display = 'block';
       containersFilters.style.display = 'none';
+    //   !editProjects.style.display ='flex' 
+    //  cela ne marche que pour une seule class selectionnée (la 1ere)
       body.style.marginTop = '80px'; 
-      
+
+//!pour selectionner chaque element de toute les class editProjects
+      editProjects.forEach(content => {
+        content.style.display = 'flex';
+      });
 
     } else {
       // Le token n'est pas valide, masque la div
@@ -105,7 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
       login.style.display = 'block';
     }
 
-
+    logout.addEventListener('click', () => {
+        // Supprimer le token du localStorage
+        localStorage.removeItem('token');
+        login.style.display = 'block';
+        logout.style.display = 'none';
+        // a voir plus tard
+        // modeEdition.style.display = 'none';
+      });
   });
 
-  main()
