@@ -320,6 +320,8 @@ footer nav ul {
 	font-size: 14px;
 	line-height: 17px;
 	font-weight: 700;
+	background-color: #FFF;
+	border:none;
 	cursor: pointer;
 }
 
@@ -366,4 +368,144 @@ footer nav ul {
 }
 .icon-edit{
 max-width: 18px;
+}
+
+/* MODAL */
+.modal-container {
+	/* display: none; */
+	visibility: hidden;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: #4646464d;
+}
+
+.modal-container.active {
+	visibility: visible;
+}
+.overlay{
+	opacity: 0;
+	/* display: none ; */
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #333333d3;
+	transition: opacity 0.4s 0.2s ease-out;
+}
+.modal-container.active .overlay{
+	opacity: 1;
+	transition: opacity 0.4s  ease-out;
+}
+
+
+.modal{
+	opacity: 0;
+	width: 95%;
+	max-width: 630px;
+	min-width: 300px;
+	height: 670px;
+	padding: 30px;
+	background: #FFF;
+	border-radius: 15px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, calc(-50% - 50px));
+	transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.modal-container.active .modal{
+	opacity: 0.8;
+	transform: translate(-50%, -50%);
+	transition: opacity 0.4s 0.2s ease-out, transform 0.4s 0.2s ease-out;
+}
+.close-modal{
+	margin: 10px; 
+	border: none;
+	background: none;
+	font-size: 20px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+}
+.modalTitle{
+	font-family: 'Work Sans';
+	font-size: 26px;
+	color: #000000;
+	text-align: center;
+	margin-top: 30px;
+	font-weight: 500;
+}
+
+.modal-img-gallery{
+	display: flex;
+	flex-direction: row;
+	max-width: 530px;
+	height: 60%;
+	flex-wrap: wrap;
+	padding-bottom: 8%;
+	overflow:hidden;
+	justify-content: flex-start;
+	margin:30px auto;
+	border-bottom: solid gray;
+}
+.modal-img-gallery figure{
+	margin: 12px;
+	width: 78.12px;
+	height: 104px;
+	position: relative;
+}
+.modal-img-gallery img{
+	
+	width: 78.12px;
+	height: 104px;
+}
+.add-img {
+	height: auto;
+	width: 33%;
+	display: block;
+	margin: 25px auto;
+	background-color: #1D6154;
+	border-radius: 60px;
+	border: none;
+	color: white;
+	font-family: 'Syne';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 17px;
+	cursor: pointer;
+	
+
+}
+.gallery-delete {
+	font-family: 'Syne';
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 17px;
+	text-align: center;
+	color: #D65353;
+	text-align: center;
+	cursor: pointer;
+}
+.delete-icon{
+	/* background-image: url('./icons/bin.svg'); */
+
+	width: 17px;
+	height: 17px;
+
+	position: absolute;
+	top:6px;
+	right:7px;
+}
+.edit-btn-modal {
+
+	color: rgb(0, 0, 0);
+	font-family: Work Sans;
+	font-size: 12px;
+	cursor: pointer;
+	margin: 2px 0px;
 }

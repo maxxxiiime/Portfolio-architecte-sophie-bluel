@@ -12,6 +12,7 @@ async function recoverWorks() {
 function createGalleryProject(work) {
     const project = document.createElement('figure');
     const image = document.createElement('img');
+    
     image.src = work.imageUrl;
     image.alt = work.title;
     project.appendChild(image);
@@ -22,6 +23,37 @@ function createGalleryProject(work) {
      
     return project;
   }
+
+// test fonction pour rajouter les images dans la modale
+function addImgModalGallery(arrayWork) {
+  const ModalGallery = document.querySelector('.modal-img-gallery');
+
+  arrayWork.forEach(work => {
+    const project = document.createElement('figure');
+    const image = document.createElement('img');
+    const editBtn = document.createElement('div');
+
+    const deleteIcon = document.createElement('div');
+    deleteIcon.classList.add('delete-icon');
+    // deleteIcon.src = "./assets/icons/bin.svg";// sinon img a la place de div a voir..
+   
+      const svgSrc = './assets/icons/bin.svg';
+      deleteIcon.style.backgroundImage = `url(${svgSrc})`;
+
+    image.src = work.imageUrl;
+    image.alt = work.title;
+    project.appendChild(image);
+
+    project.appendChild(deleteIcon);
+    editBtn.textContent = 'éditer';
+    editBtn.className = 'edit-btn-modal';
+    project.appendChild(editBtn);
+
+    ModalGallery.appendChild(project);
+   
+  });
+}
+
 
 function displayGallery(arrayWork) {
     gallery.innerHTML='';
@@ -37,6 +69,8 @@ async function main() {
     resetGallery();
     displayGallery(listWorks);
     recoverCategories();
+
+    addImgModalGallery(listWorks);
 }
 function resetGallery() {
     gallery.innerHTML='';
@@ -73,7 +107,7 @@ function categorieFilter() {
             if (selectedCategorie === 'all') {
                 displayGallery(listWorks); 
               } 
-            //   afficher la catégorie selectionnée
+            //   affiche la catégorie selectionnée
               else {
                 const filteredProjects = listWorks.filter(work => work.categoryId == selectedCategorie);
                 displayGallery(filteredProjects);
@@ -82,7 +116,7 @@ function categorieFilter() {
     });
 }
 main()
-
+// mode édition
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     const modeEdition = document.querySelector('.mode-edition');
@@ -97,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       login.style.display = 'none';
       logout.style.display = 'block';
       containersFilters.style.display = 'none';
-    //   !editProjects.style.display ='flex' 
+    //   editProjects.style.display ='flex' 
     //  cela ne marche que pour une seule class selectionnée (la 1ere)
       body.style.marginTop = '80px'; 
 
@@ -122,3 +156,22 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 
+
+  // fonction pour faire basculer le bouton (toggle) checkModal en active
+  const modalContainer = document.querySelector(".modal-container");
+  const checkModal = document.querySelectorAll(".check-modal");
+
+  checkModal.forEach(check => check.addEventListener("click", toggleModal))
+
+function toggleModal(){
+  modalContainer.classList.toggle("active")
+}
+
+// delete projet a voir
+    // function deleteProject(projectId) {
+    //   deleteIcon.addEventListener('click', function (event) {
+    //    // suppr le projet avec l'ID spécifié
+
+    //    console.log("Supprime projet ID :" projectId);
+    //  });
+    // }

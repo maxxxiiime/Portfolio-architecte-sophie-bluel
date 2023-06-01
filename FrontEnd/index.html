@@ -11,7 +11,6 @@
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
-<!-- a afficher au login -->
 <!-- 
 sophie.bluel@test.tld
 S0phie 
@@ -26,6 +25,24 @@ S0phie
 		</div>
 	</div>
 
+<!-- contenu de la modal -->
+	<div class="modal-container">
+
+		<div class="overlay check-modal">
+		</div>
+	   
+			<div class="modal">
+			<button class="close-modal check-modal">
+				<img class="cross" src="./assets/icons/close.svg" alt="cross">
+			</button> 
+			<div class="modalTitle">Galerie photo</div>
+			<div class="modal-img-gallery"></div>
+			
+			<button class="add-img">Ajouter une photo</button>
+			<p class="gallery-delete">Supprimer la galerie.</p>
+			</div>
+  
+	</div>
 <!-- header avec nav login -->
 <header>
 	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
@@ -70,7 +87,7 @@ S0phie
 			<!-- open modal-->
 			<div class="content-edit-projects">
 				<img class="icon-edit" src="./assets/icons/icon-edit.svg" alt="edit">
-				<div class="edit-btn open-modal">modifier</div>
+				<div class="edit-btn check-modal">modifier</div>
 			</div>
 		</div>
 
