@@ -11,6 +11,7 @@ async function recoverWorks() {
 
 function createGalleryProject(work) {
     const project = document.createElement('figure');
+    project.setAttribute('project-id', work.id); //attribuer ID pour suppr
     const image = document.createElement('img');
     
     image.src = work.imageUrl;
@@ -22,9 +23,11 @@ function createGalleryProject(work) {
     project.appendChild(title);
      
     return project;
+
+   
   }
 
-// test fonction pour rajouter les images dans la modale
+// Mettre les images dans la modale
 function addImgModalGallery(arrayWork) {
   const ModalGallery = document.querySelector('.modal-img-gallery');
 
@@ -49,11 +52,26 @@ function addImgModalGallery(arrayWork) {
     editBtn.className = 'edit-btn-modal';
     project.appendChild(editBtn);
 
+    // supprimer un projet
+    deleteIcon.addEventListener('click', function (event) {
+      deleteProject(work.id);
+      project.remove(); // Supprime le projet
+    });
+// On envoi tout (image projet deleteIcon editer... ) ici
     ModalGallery.appendChild(project);
    
   });
 }
+// j'appelle la fonction pour delete un projet avec son id
+function deleteProject(projectId) {
+  console.log(projectId);
 
+  // projectTodelete = <figure> qui a le même attribute que projectID defini dans function createGalleryProject
+  const projectToDelete = document.querySelector(`figure[project-id="${projectId}"]`); 
+  if (projectToDelete) {
+    projectToDelete.remove();
+  }
+}
 
 function displayGallery(arrayWork) {
     gallery.innerHTML='';
@@ -116,7 +134,7 @@ function categorieFilter() {
     });
 }
 main()
-// mode édition
+//! mode édition
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     const modeEdition = document.querySelector('.mode-edition');
@@ -135,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //  cela ne marche que pour une seule class selectionnée (la 1ere)
       body.style.marginTop = '80px'; 
 
-//!pour selectionner chaque element de toute les class editProjects
+//! pour selectionner chaque element de toute les class editProjects
       editProjects.forEach(content => {
         content.style.display = 'flex';
       });
@@ -151,13 +169,13 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('token');
         login.style.display = 'block';
         logout.style.display = 'none';
-        // a voir plus tard
-        // modeEdition.style.display = 'none';
+      
+        // modeEdition.style.display = 'none';  // a voir plus tard
       });
   });
 
 
-  // fonction pour faire basculer le bouton (toggle) checkModal en active
+  // fonction pour faire basculer (toggle) le bouton  checkModal en active
   const modalContainer = document.querySelector(".modal-container");
   const checkModal = document.querySelectorAll(".check-modal");
 
@@ -167,11 +185,12 @@ function toggleModal(){
   modalContainer.classList.toggle("active")
 }
 
-// delete projet a voir
-    // function deleteProject(projectId) {
-    //   deleteIcon.addEventListener('click', function (event) {
-    //    // suppr le projet avec l'ID spécifié
 
-    //    console.log("Supprime projet ID :" projectId);
-    //  });
-    // }
+//! tentative d'ajouter des projets
+const addImgBtn = document.querySelector('.add-img');
+function addProjects() {
+  console.log('Créé une modal form');
+  //  creé ici une autre modal avec un form ? ou dans le html
+}
+
+addImgBtn.addEventListener('click', addProjects);
