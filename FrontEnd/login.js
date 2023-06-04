@@ -1,4 +1,5 @@
 const form = document.querySelector('.form');
+const btnLogin = document.querySelector(".btn-login");
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -29,6 +30,10 @@ form.addEventListener('submit', async (event) => {
       window.location.href = './index.html';
     } else {
       errorMsg.innerText = 'Erreur dans l’identifiant ou le mot de passe.';
+      btnLogin.classList.add("shake");
+      setTimeout(() => {
+        btnLogin.classList.remove("shake");
+      }, 500);
     }
   } catch (error) {
     console.log('Erreur lors de la requête de connexion :', error);

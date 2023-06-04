@@ -33,7 +33,7 @@ S0phie
 	   
 			<div class="modal">
 			<button class="close-modal check-modal">
-				<img class="cross" src="./assets/icons/close.svg" alt="cross">
+				<img class="close-modal" src="./assets/icons/close.svg" alt="cross">
 			</button> 
 			<div class="modalTitle">Galerie photo</div>
 			<div class="modal-img-gallery"></div>
@@ -43,6 +43,53 @@ S0phie
 			</div>
   
 	</div>
+
+	<!-- 2eme modal avec le form -->
+	<div class="modal-container2">
+		<div class="overlay check-modal">
+		</div>
+		<div class="modal2">
+			<button class="close-modal check-modal2">
+				<img class="close-modal" src="./assets/icons/close.svg" alt="close">
+			</button> 
+		<img id="icon-arrow-back" src="./assets/icons/arrow-back.svg" alt="back">
+		<p class="add-photo-txt">Ajout photo</p>
+		<div class="form-add-container">
+			<!-- le form commence ici ou apres? -->
+			    <div class="add-img-container">
+					<!-- ---- -->
+				  <div class="container-upload-img">
+						<img class='img-icon' src="./assets/icons/img-icon.svg" alt="icon photo" />	
+					<label class="upload-img" for="upload-img">+ Ajouter photo</label>						
+					<input type="file" id="upload-img" class="input-upload-img" name="upload"
+					accept=".jpg, .jpeg, .png">						
+						<p class="accept-txt">jpg, png : 4mo max</p>
+				  </div>
+						<div class="preview-img-container">
+							<img class="preview-img" alt="preview image" >
+						</div>	
+				</div>	
+				<form class="form-data-project"  method="post">
+					<label for="title-project">Titre</label>
+					<input class="title-project" type="text" id="title-project" name="title-project">
+					<label for="category-project">Categories</label>
+					<select class="category-project" id="category-project" name="category-project" >
+						<!-- <option value=""></option> a voir plus tard-->
+					<option value="objets" id="1" class="selectcategory">Objets</option>
+					<option value="appartement" id="2" class="selectcategory">Appartements</option>
+					<option value="hotels&restaurants" id="3" class="selectcategory">Hotels & Restaurants</option>
+					</select>
+					<div class="container-btn-validate">
+						<button type="button" class="validate-upload">Valider</button>
+						<p class="error-upload-txt">Veuillez remplir tous les champs</p>
+				</div>	
+			</form>
+		</div><!-- fin du form contain -->
+
+	 </div> <!-- fin de la modal2 -->
+  </div>
+	<!-- fin de la modal container 2 -->
+
 <!-- header avec nav login -->
 <header>
 	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
