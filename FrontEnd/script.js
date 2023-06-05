@@ -5,7 +5,7 @@ let listWorks;
 // récupérer les travaux de l'api avec Fetch
 async function recoverWorks() {
   const response = await fetch("http://localhost:5678/api/works");
-  const works = await response.json();
+  const works    = await response.json();
   return works;
 }
 
@@ -33,13 +33,10 @@ function addImgModalGallery(arrayWork) {
     console.log(arrayWork);
 
     const project = document.createElement("figure");
-    
-    const image = document.createElement("img");
+    const image   = document.createElement("img");
     const editBtn = document.createElement("div");
 
-
-
-    const deleteIcon = document.createElement("div");
+    const deleteIcon = document.createElement("div"); //ou remplace div par button ??
     deleteIcon.classList.add("delete-icon");
     // deleteIcon.src = "./assets/icons/bin.svg";// sinon img a la place de div a voir..
 
@@ -52,13 +49,16 @@ function addImgModalGallery(arrayWork) {
 
     project.appendChild(deleteIcon);
     editBtn.textContent = "éditer";
-    editBtn.className = "edit-btn-modal";
+    editBtn.className   = "edit-btn-modal";
     project.appendChild(editBtn);
 
     // supprimer un projet
     deleteIcon.addEventListener("click", function (event) {
+      //event.preventDefault(); // Empeche le rechargement de la page
       deleteProject(work.id);
       project.remove(); // Supprime le projet
+      // event.stopPropagation(); //a voir pour empeche le rechargement
+      updateGallery(listWorks);//testt
     });
     // On envoi tout (image projet deleteIcon editer... ) ici
     ModalGallery.appendChild(project);
@@ -76,18 +76,39 @@ function deleteProject(projectId) {
     },
   })
     .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      // projectTodelete = <figure> qui a le même attribute que projectID defini dans function createGalleryProject
-      const projectToDelete = document.querySelector(
-        `figure[project-id="${projectId}"]`
-      );
-      if (projectToDelete) {
-        projectToDelete.remove();
+      if (response.ok) {
+        // supprime l'élément du DOM
+        const projectToDelete = document.querySelector(`figure[project-id="${projectId}"]`);
+        if (projectToDelete) {
+          projectToDelete.remove();
+        }
+      } else {
+        // Gérer l'erreur de suppression
+        throw new Error("Failed");
       }
+    })
+    .catch((error) => {
+      console.log("Error", error);
+
+    //   return response.json();
+    // })
+    // .then((data) => {
+    //   // projectTodelete = <figure> qui a le même attribute que projectID defini dans function createGalleryProject
+    //   const projectToDelete = document.querySelector(
+    //     `figure[project-id="${projectId}"]`
+    //   );
+    //   if (projectToDelete) {
+    //     projectToDelete.remove();
+    //     updateGallery(listWorks); // Mettre à jour la galerie avec les projets restants
+    //   }
     });
 }
+// mettre a jours la gallery
+function updateGallery(arrayWork) {
+  gallery.innerHTML = "";
+  displayGallery(arrayWork);
+}
+
 
 function displayGallery(arrayWork) {
   gallery.innerHTML = "";
@@ -103,8 +124,8 @@ async function main() {
   resetGallery();
   displayGallery(listWorks);
   recoverCategories();
-
   addImgModalGallery(listWorks);
+  updateGallery(listWorks);//mettre a jour la gallery
 }
 function resetGallery() {
   gallery.innerHTML = "";
@@ -148,18 +169,23 @@ function categorieFilter() {
         );
         displayGallery(filteredProjects);
       }
-    }
+    } 
+    
+    // else if (event.target.classList.contains("delete-icon")) {
+    //   event.stopPropagation(); // Arrête la propagation de l'événement et dc
+    // }
+
   });
 }
 main();
 //! mode édition
 document.addEventListener("DOMContentLoaded", () => {
-  const token = localStorage.getItem("token");
-  const modeEdition = document.querySelector(".mode-edition");
-  const login = document.getElementById("login");
-  const logout = document.getElementById("logout");
+  const token        = localStorage.getItem("token");
+  const modeEdition  = document.querySelector(".mode-edition");
+  const login        = document.getElementById("login");
+  const logout       = document.getElementById("logout");
   const editProjects = document.querySelectorAll(".content-edit-projects");
-  const body = document.querySelector("body");
+  const body         = document.querySelector("body");
 
   if (token) {
     // Le token est valide, affiche la div
@@ -211,6 +237,7 @@ modalClose.forEach(trigger => trigger.addEventListener("click", closeModal,))
 function closeModal() {
   modalContainer.classList.remove("active")
     modalContainer2.classList.remove("active")
+    
 }
 // bouton Ajouter une photo modal 1(close la 1ere modal et active modal2 )
 addImgBtn.forEach((check) => check.addEventListener("click", toggleModal2));
@@ -226,6 +253,8 @@ const arrowBack = document.getElementById("icon-arrow-back");
 arrowBack.addEventListener("click", () => {
     modalContainer.classList.add("active")
     modalContainer2.classList.remove("active")
+    previewImgContainer.style = "visibility: hidden";
+    containerUploadImg.style = "visibility: visible";
 });
 
 
@@ -236,5 +265,18 @@ arrowBack.addEventListener("click", () => {
 // addImgBtn.addEventListener("click", addProjects);
 
 const form = document.querySelector(".form-data-project")
-console.log(form)
+
+const fileInput = document.getElementById("upload-img");
+const previewImage = document.querySelector(".preview-img");
+const previewImgContainer = document.querySelector(".preview-img-container");
+const containerUploadImg = document.querySelector(".container-upload-img");
+
+fileInput.addEventListener("change", function(event) {
+  previewImgContainer.style = "visibility: visible";
+  containerUploadImg.style = "visibility: hidden";
+  const file = event.target.files[0];
+  const imageUrl = URL.createObjectURL(file);
+  previewImage.src = imageUrl;
+  console.log(imageUrl);
+});
 

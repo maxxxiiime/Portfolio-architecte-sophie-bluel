@@ -1,10 +1,10 @@
-const form = document.querySelector('.form');
+const form     = document.querySelector('.form');
 const btnLogin = document.querySelector(".btn-login");
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const email = document.getElementById('email').value;
+  const email    = document.getElementById('email').value;
   const password = document.getElementById('password').value;
   const errorMsg = document.getElementById('message-error');
 
