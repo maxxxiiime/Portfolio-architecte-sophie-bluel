@@ -116,7 +116,7 @@ function displayGallery(arrayWork) {
   arrayWork.forEach((work) => {
     const galleryProject = createGalleryProject(work);
     gallery.appendChild(galleryProject);
-    console.log(work);
+    // console.log(work);
   });
 }
 async function main() {
@@ -248,6 +248,7 @@ function toggleModal2() {
   // addProjects();
 }
 // retour a la premiere modal
+function backToModal1(){
 const arrowBack = document.getElementById("icon-arrow-back");
 
 arrowBack.addEventListener("click", () => {
@@ -256,7 +257,7 @@ arrowBack.addEventListener("click", () => {
     previewImgContainer.style = "visibility: hidden";
     containerUploadImg.style = "visibility: visible";
 });
-
+}
 
 // !AJOUTER DES PROJETS
 // function addProjects() {
@@ -278,5 +279,52 @@ fileInput.addEventListener("change", function(event) {
   const imageUrl = URL.createObjectURL(file);
   previewImage.src = imageUrl;
   console.log(imageUrl);
+});
+
+
+const validateUpload = document.querySelector(".validate-upload");
+
+validateUpload.addEventListener("click", async function() {
+  const titleInput     = document.getElementById("title-project");
+  const categorySelect = document.getElementById("category-project");
+  const errorUpload    = document.querySelector(".error-upload-txt");
+
+  if (titleInput.value === "" || categorySelect.value === "" || previewImage.src === "" ) {
+    // champs obligatoires sinon .shake
+    errorUpload.style.display = "block";
+    validateUpload.classList.add("shake");
+    setTimeout(() => {
+      validateUpload.classList.remove("shake");
+    }, 500);
+  //   return;
+  } 
+  else {
+    const newProject = {
+      title: titleInput.value,
+      category: categorySelect.value,
+
+      imageUrl: previewImage.src
+    };
+  
+
+  addProject(newProject);
+  console.log(newProject);
+  closeModal();
+  // backToModal1();
+  toggleModal();
+  }
+
+
+
+  function addProject(project) {
+    // Ajouter le projet à la modal gallery
+    const projectModal = createGalleryProject(project);
+    const ModalGallery = document.querySelector(".modal-img-gallery");
+    ModalGallery.appendChild(projectModal);
+  
+    // Ajouter le projet à la gallery principale
+    const galleryProject = createGalleryProject(project);
+    gallery.appendChild(galleryProject);
+  }
 });
 
