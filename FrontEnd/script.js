@@ -57,7 +57,7 @@ function addImgModalGallery(arrayWork) {
       //event.preventDefault(); // Empeche le rechargement de la page
       deleteProject(work.id);
       project.remove(); // Supprime le projet
-      // event.stopPropagation(); //a voir pour empeche le rechargement
+      // event.stopPropagation(); //a voir 
       updateGallery(listWorks);//testt
     });
     // On envoi tout (image projet deleteIcon editer... ) ici
@@ -120,8 +120,8 @@ function displayGallery(arrayWork) {
   });
 }
 async function main() {
-  listWorks = await recoverWorks();
-  resetGallery();
+  listWorks = await recoverWorks(); //récup les donnée de l'API et l'attribut a listWorks
+  resetGallery(); //vide la galerie existante.
   displayGallery(listWorks);
   recoverCategories();
   addImgModalGallery(listWorks);
@@ -282,6 +282,37 @@ fileInput.addEventListener("change", function(event) {
 });
 
 
+
+
+  async function addProjectToAPI(project) {
+    try {
+      const formData = new FormData();
+      formData.append('image', project.image);
+      formData.append('title', project.title);
+      formData.append('category', project.category);
+  
+      const response = await fetch('http://localhost:5678/api/works', {
+        method: "POST",
+        headers: {
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: formData 
+      });
+      if (response.ok) {
+        // Projet rajouté avec succès dans l'API
+        const newProject = await response.json();
+        return newProject;
+      } else {
+        throw new Error("Failed to add project");
+      }
+    } catch (error) {
+      console.log("Error", error);
+      throw error;
+    }
+  }
+
+
+
 const validateUpload = document.querySelector(".validate-upload");
 
 validateUpload.addEventListener("click", async function() {
@@ -302,19 +333,18 @@ validateUpload.addEventListener("click", async function() {
     const newProject = {
       title: titleInput.value,
       category: categorySelect.value,
-
+      
       imageUrl: previewImage.src
     };
-  
+    const AddNewProjectPost = await addProjectToAPI(newProject);
+    console.log(newProject);
 
-  addProject(newProject);
-  console.log(newProject);
+  addProject(AddNewProjectPost);
+  console.log(AddNewProjectPost);
   closeModal();
   // backToModal1();
   toggleModal();
   }
-
-
 
   function addProject(project) {
     // Ajouter le projet à la modal gallery
