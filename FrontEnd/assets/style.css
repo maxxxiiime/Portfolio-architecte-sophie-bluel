@@ -278,7 +278,6 @@ footer nav ul {
 }
 .btn-login-container button {
 	width: 180px;
-	border-radius: 60px;
 	margin: 27px 0px 37px 0px;
 	padding: 10px 27px;
 	font-family: 'Syne';
@@ -287,6 +286,8 @@ footer nav ul {
 	font-size: 15px;
 	line-height: 17px;
 	text-align: center;
+	border-radius: 60px;
+	border: none;
 	color: #FFFFFF;	
 	background: #1D6154;
 	cursor: pointer;
@@ -715,7 +716,9 @@ z-index: 9999;
 	line-height: 16px;
 	color: #306685;
 	background-color: #CBD6DC;
-
+}
+.upload-img:hover {
+	background-color: #bebebe;
 }
 
 .input-upload-img{
@@ -811,9 +814,20 @@ z-index: 9999;
 		line-height: 17px;
 		cursor: pointer;
 		color: white;
+		background-color: #a7a7a7;
+	}
+	.validate-upload:hover  {
+
+		background-color: #7a7a7a;
+	}
+	
+	
+	.ready {
+
 		background-color: #1D6154;
 	}
-	.validate-upload:hover {
+
+	.ready:hover {
 		background-color: #0E2F28;
 	}
 	.error-upload-txt {
