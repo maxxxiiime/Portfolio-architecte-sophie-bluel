@@ -32,9 +32,8 @@ function addSingleGalleryImg(work) {
     const image   = document.createElement("img");
     const editBtn = document.createElement("div");
 
-    const deleteIcon = document.createElement("div"); //ou remplace div par button ??
+    const deleteIcon = document.createElement("div"); 
     deleteIcon.classList.add("delete-icon");
-    // deleteIcon.src = "./assets/icons/bin.svg";// sinon img a la place de div a voir..
 
     const svgSrc = "./assets/icons/bin.svg";
     deleteIcon.style.backgroundImage = `url(${svgSrc})`;
@@ -90,8 +89,7 @@ function deleteProject(projectId, listWorks) {
         if (projectToDelete) {
           projectToDelete.remove();
         }
- 
-        
+   
         recoverWorks()
         .then((updatedWorks) => {
           listWorks = updatedWorks;
@@ -101,7 +99,6 @@ function deleteProject(projectId, listWorks) {
       .catch((error) => {
         console.log("Error while updating works", error);
       });
-
       } else {
         // Gérer l'erreur de suppression
         throw new Error("Failed");
@@ -111,20 +108,23 @@ function deleteProject(projectId, listWorks) {
       console.log("Error", error);
     });
 }
+// Reset gallery
+function resetGallery() {
+  gallery.innerHTML = "";
+}
 // mettre a jours la gallery
 function updateGallery(arrayWork) {
-  gallery.innerHTML = "";
+  resetGallery();
   displayGallery(arrayWork);
 }
 
-
 function displayGallery(arrayWork) {
-  gallery.innerHTML = "";
+  resetGallery();
 
   arrayWork.forEach((work) => {
     const galleryProject = createGalleryProject(work);
     gallery.appendChild(galleryProject);
-    // console.log(work);
+
   });
 }
 async function main() {
@@ -135,9 +135,7 @@ async function main() {
   addImgModalGallery(listWorks);
   updateGallery(listWorks);//mettre a jour la gallery
 }
-function resetGallery() {
-  gallery.innerHTML = "";
-}
+
 // récupérer les catégories 1, 2 ou 3
 async function recoverCategories() {
   const response = await fetch("http://localhost:5678/api/categories");
@@ -283,7 +281,6 @@ fileInput.addEventListener("change", function(event) {
   console.log(imageUrl);
 });
 
-
   async function addProjectToAPI(project) {
     try {
       const formData = new FormData();
@@ -314,7 +311,7 @@ fileInput.addEventListener("change", function(event) {
     }
   }
 
-
+//variable du formulaire
 const validateUpload = document.querySelector(".validate-upload");
 const titleInput     = document.getElementById("title-project");
 const categorySelect = document.getElementById("category-project");
@@ -329,7 +326,7 @@ function checkFormIsOk() {
   }
 }
 
-// Ajoutez des écouteurs d'événements "input" aux champs du formulaire
+// addEventListener de type "input" aux champs du formulaire
 titleInput.addEventListener("input", checkFormIsOk);
 categorySelect.addEventListener("input", checkFormIsOk);
 
@@ -342,21 +339,18 @@ validateUpload.addEventListener("click", async function() {
     setTimeout(() => {
       validateUpload.classList.remove("shake");
     }, 500);
-  //   return;
   } 
   else {
   
     const newProject = {
       title: titleInput.value,
       category: categorySelect.value,
-      image: fileInput.files[0]
-      
+      image: fileInput.files[0]    
     };
     
     try {
     const AddNewProjectPost = await addProjectToAPI(newProject);
     console.log(newProject);
-
 
       addProject(AddNewProjectPost);
       listWorks = await recoverWorks(); //récup les donnée de l'API et l'attribut a listWorks
