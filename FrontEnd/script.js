@@ -26,6 +26,7 @@ function createGalleryProject(work) {
   return project;
 }
 
+// Ajout des projets dans la modal
 function addSingleGalleryImg(work) {
 
   const project = document.createElement("figure");
@@ -59,14 +60,13 @@ function addSingleGalleryImg(work) {
     return project;
 }
 
-
 // Mettre les images dans la modale
 function addImgModalGallery(arrayWork) {
   const ModalGallery = document.querySelector(".modal-img-gallery");
 
   arrayWork.forEach((work) => {
     console.log(arrayWork);
-let project= addSingleGalleryImg(work);
+    let project= addSingleGalleryImg(work);
     // On envoi tout (image projet deleteIcon editer... ) ici
     ModalGallery.appendChild(project);
   });
@@ -117,32 +117,32 @@ function updateGallery(arrayWork) {
   resetGallery();
   displayGallery(arrayWork);
 }
-
+//! Affiche la gallery
 function displayGallery(arrayWork) {
   resetGallery();
 
   arrayWork.forEach((work) => {
     const galleryProject = createGalleryProject(work);
     gallery.appendChild(galleryProject);
-
   });
 }
+
 async function main() {
   listWorks = await recoverWorks(); //récup les donnée de l'API et l'attribut a listWorks
   resetGallery(); //vide la galerie existante.
-  displayGallery(listWorks);
-  recoverCategories();
-  addImgModalGallery(listWorks);
-  updateGallery(listWorks);//mettre a jour la gallery
+  displayGallery(listWorks); //affiche la gallery
+  recoverCategories(); //recup la liste des categorie depuis API
+  addImgModalGallery(listWorks); //Pour ajouter les projets a la mini gallery modal
+  updateGallery(listWorks); //mettre a jour la gallery
 }
-
+//! FILTRES
 // récupérer les catégories 1, 2 ou 3
 async function recoverCategories() {
   const response = await fetch("http://localhost:5678/api/categories");
   const listCategories = await response.json();
   console.log(listCategories);
-  // return listCategories;
-  createFilters(listCategories);
+ 
+  createFilters(listCategories); // créé les filtres pr chaque categorie
   // ajoute les filtres categories
   categorieFilter();
 }
@@ -152,7 +152,7 @@ function createFilters(categories) {
     const btn = document.createElement("button");
     btn.className = "filter";
     btn.id = categorie.id;
-    btn.textContent = categorie.name;
+    btn.textContent = categorie.name; // le text du bouton = le nom de la catégorie
     containersFilters.appendChild(btn);
   });
 }
@@ -168,7 +168,7 @@ function categorieFilter() {
       if (selectedCategorie === "all") {
         displayGallery(listWorks);
       }
-      //   affiche la catégorie selectionnée
+      // affiche la catégorie selectionnée
       else {
         const filteredProjects = listWorks.filter(
           (work) => work.categoryId == selectedCategorie
@@ -179,6 +179,7 @@ function categorieFilter() {
   });
 }
 main();
+
 //! mode édition
 document.addEventListener("DOMContentLoaded", () => {
   const token        = localStorage.getItem("token");
@@ -211,11 +212,11 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem("token");
     login.style.display = "block";
     logout.style.display = "none";
-
     // modeEdition.style.display = 'none';  // a voir plus tard
   });
 });
 
+//! MODAL CONTAINER 1
 // fonction pour faire basculer (toggle) le bouton  checkModal en active
 const modalContainer = document.querySelector(".modal-container");
 const checkModal = document.querySelectorAll(".check-modal");
@@ -240,13 +241,12 @@ function closeModal() {
   previewImgContainer.style = "visibility: hidden";
   containerUploadImg.style = "visibility: visible";
   addProjectForm.reset();
-  validateUpload.classList.remove("ready");
-    
+  validateUpload.classList.remove("ready"); 
 }
 // bouton Ajouter une photo modal 1(close la 1ere modal et active modal2 )
 addImgBtn.forEach((check) => check.addEventListener("click", toggleModal2));
 function toggleModal2() {
-  modalContainer.classList.remove("active") // A voir aussi si je garde le overlay tout le temps de la nav entre modal
+  modalContainer.classList.remove("active"); // A voir aussi si je garde le overlay tout le temps de la nav entre modal
   modalContainer2.classList.toggle("active");
 
 }
@@ -273,12 +273,19 @@ const previewImgContainer = document.querySelector(".preview-img-container");
 const containerUploadImg = document.querySelector(".container-upload-img");
 
 fileInput.addEventListener("change", function(event) {
+  let fileSize = fileInput.files[0].size / 1024 / 1024; // Convertit en Mo
+
+    if (fileSize <= 4) { // Detecte si la taille du fichier upload <= 4mo
   previewImgContainer.style = "visibility: visible";
   containerUploadImg.style = "visibility: hidden";
   const file = event.target.files[0];
   const imageUrl = URL.createObjectURL(file);
   previewImage.src = imageUrl;
   console.log(imageUrl);
+  checkFormIsOk(); }
+  else{
+    alert("le fichier ne doit pas dépasser 4mo") //! Alert 
+  }
 });
 
   async function addProjectToAPI(project) {
@@ -286,7 +293,7 @@ fileInput.addEventListener("change", function(event) {
       const formData = new FormData();
       formData.append('image', project.image);
       formData.append('title', project.title);
-      formData.append('category', +project.category);
+      formData.append('category', +project.category); //+ pour avoir le numero de catégorie
   console.log(formData);
   console.log(project);
 
@@ -319,8 +326,15 @@ const errorUpload    = document.querySelector(".error-upload-txt");
 
 // Fonction de vérification du formulaire pour le bouton valider
 function checkFormIsOk() {
-  if (titleInput.value !== "" && categorySelect.value !== "" && previewImage.value !== "") {
+  if (titleInput.value !== "" && categorySelect.value !== "" && previewImage.src !== "") {
+    let fileSize = fileInput.files[0].size / 1024 / 1024; // Convertit en Mo
+    console.log(fileSize);
+    if (fileSize <= 4) { //si la taille <= 4mo
+     
     validateUpload.classList.add("ready");
+    return;
+    }
+
   } else {
     validateUpload.classList.remove("ready");
   }
@@ -332,16 +346,18 @@ categorySelect.addEventListener("input", checkFormIsOk);
 
 validateUpload.addEventListener("click", async function() {
 
-  if (titleInput.value === "" || categorySelect.value === "" || previewImage.src === "" ) {
+  if (titleInput.value === "" || categorySelect.value === "" || previewImage.src === "")  {
+   
+      
     // champs obligatoires sinon .shake
     errorUpload.style.display = "block";
     validateUpload.classList.add("shake");
     setTimeout(() => {
       validateUpload.classList.remove("shake");
     }, 500);
+
   } 
   else {
-  
     const newProject = {
       title: titleInput.value,
       category: categorySelect.value,
@@ -353,7 +369,7 @@ validateUpload.addEventListener("click", async function() {
     console.log(newProject);
 
       addProject(AddNewProjectPost);
-      listWorks = await recoverWorks(); //récup les donnée de l'API et l'attribut a listWorks
+      listWorks = await recoverWorks(); //récup les données de l'API et l'attribut a listWorks
       displayGallery(listWorks);
       console.log(AddNewProjectPost);
       closeModal();
